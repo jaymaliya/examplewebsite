@@ -197,6 +197,42 @@
     .footer__col li{margin-bottom:1.5rem}
     .footer__col .wave-link{font-family:'Montserrat',sans-serif;font-size:1.55rem;font-weight:500}
     .footer__bottom{border-top:1px solid rgba(255,255,255,.25);padding-top:2.5rem;display:flex;justify-content:space-between;font-size:1.2rem;font-family:'Montserrat',sans-serif;opacity:.7}
+
+    /* ── MOBILE RESPONSIVENESS ── */
+    @media (max-width: 768px) {
+      html { font-size: 8.5px; }
+      .nav { padding: 0 2rem; height: 7rem; }
+      .nav__links { display: none; }
+      .nav__right .nav__link { display: none; }
+      .hero__content { padding: 0 3rem; text-align: center; margin: 0 auto; }
+      .hero__dots, .hero__arrows { justify-content: center; }
+      .categories { padding: 6rem 2rem; }
+      .categories__grid { flex-wrap: wrap; gap: 4rem; justify-content: center; margin-bottom: 3rem; padding-top: 2rem; }
+      .cat-item { width: 40%; }
+      .cat-circle { width: 14rem; height: 14rem; }
+      .lattes { min-height: 40rem; }
+      .lattes__content { padding: 4rem 3rem; text-align: center; margin: 0 auto; }
+      .features { padding: 6rem 2rem; }
+      .features__grid { grid-template-columns: 1fr; gap: 4rem; }
+      .barista { grid-template-columns: 1fr; min-height: auto; }
+      .barista__left { padding: 2rem; }
+      .barista__slider { min-height: 40rem; }
+      .barista__right { padding: 4rem 2rem; text-align: center; }
+      .barista__prods { flex-direction: row; gap: 2rem; justify-content: center; }
+      .recipes { grid-template-columns: 1fr; gap: 4rem; padding: 6rem 2rem; text-align: center; }
+      .press { padding: 6rem 2rem; }
+      .press__grid { grid-template-columns: 1fr; gap: 2rem; }
+      .wtb { grid-template-columns: 1fr; min-height: auto; }
+      .wtb__panel { min-height: 40rem; }
+      .wtb__content { padding: 4rem 2rem; text-align: center; display: flex; flex-direction: column; align-items: center; }
+      .follow { padding: 6rem 2rem; }
+      .follow__grid { grid-template-columns: 1fr; gap: 2rem; }
+      footer { padding: 5rem 2rem 3rem; }
+      .footer__inner { grid-template-columns: 1fr; gap: 4rem; }
+      .footer__products-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .footer__right-cols { grid-template-columns: 1fr; gap: 3rem; }
+      .footer__bottom { flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
+    }
   </style>
 </head>
 <body>
