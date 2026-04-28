@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Califia Farms – Always Plant-Based</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Montserrat:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Abril+Fatface&family=Gloock&family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Calistoga&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:10px;scroll-behavior:smooth}
+    body{font-family:'Montserrat',sans-serif;background:#faf8f5;color:#1a1a1a;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;font-family:inherit;border:none;background:none}
+    img{display:block;max-width:100%;object-fit:cover}
+    :root{
+      --red:#e03828;
+      --dark:#0d0d0d;
+      --cream:#faf8f5;
+      --beige:#f2ece0;
+      --terracotta:#c87048;
+      --text:#1a1a1a;
+      --brown:#2b1506;
+      --muted:#666;
+      --white:#fff;
+    }
+
+    /* ── BTN ── */
+    .btn{display:inline-block;padding:1.3rem 3.2rem;font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;border-radius:999px;border:2px solid currentColor;transition:background .22s,color .22s;cursor:pointer}
+    .btn--outline-white{border-color:rgba(255,255,255,.75);color:#fff}.btn--outline-white:hover{background:#fff;color:var(--text)}
+    .btn--outline-dark{border-color:var(--text);color:var(--text)}.btn--outline-dark:hover{background:var(--text);color:#fff}
+    .btn--red{background:var(--red);border-color:var(--red);color:#fff}.btn--red:hover{background:#c22d1f;border-color:#c22d1f}
+    .btn--outline-red{border-color:var(--red);color:var(--red)}.btn--outline-red:hover{background:var(--red);color:#fff}
+
+    /* ── NAV ── */
+    .nav{position:fixed;inset:0 0 auto 0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 4rem;height:9rem;background:transparent;transition:background .35s,box-shadow .35s}
+    .nav.scrolled{background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.1)}
+    .nav__links,.nav__right{display:flex;align-items:center;gap:3.5rem}
+    .nav__link{font-size:1.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;transition:color .35s,opacity .2s}
+    .nav.scrolled .nav__link{color:var(--brown)}
+    .nav__link:hover{opacity:.7}
+    .nav__logo{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center}
+    .nav__logo svg{height:5.4rem;width:auto;fill:#fff;transition:fill .35s}
+    .nav.scrolled .nav__logo svg{fill:#503629}
+    .nav__icon{width:2.4rem;height:2.4rem;stroke:#fff;fill:none;stroke-width:2;cursor:pointer;transition:stroke .35s}
+    .nav.scrolled .nav__icon{stroke:var(--brown)}
+
+    /* ── HERO ── */
+    .hero{position:relative;min-height:100vh;margin-top:0;display:flex;align-items:center;overflow:hidden}
+    .hero__bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1800&q=85') center/cover no-repeat;transition:background-image .4s}
+    .hero__overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,6,3,.78) 0%,rgba(10,6,3,.5) 50%,rgba(10,6,3,.12) 100%)}
+    .hero__content{position:relative;z-index:2;padding:0 8rem;max-width:680px}
+    .hero__eyebrow{font-size:1.1rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:2.2rem}
+    .hero__title{font-family:'Playfair Display',serif;font-size:clamp(4.2rem,5.5vw,7rem);font-weight:700;line-height:1.06;color:#fff;margin-bottom:3rem;transition:opacity .3s}
+    .hero__dots{display:flex;gap:.8rem;margin-bottom:3rem}
+    .hero__dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:background .2s,transform .2s}
+    .hero__dot.active{background:#fff;transform:scale(1.2)}
+    .hero__arrows{display:flex;gap:1rem;margin-top:2.5rem}
+    .hero__arrow{width:4.4rem;height:4.4rem;border-radius:50%;border:2px solid rgba(255,255,255,.5);color:#fff;font-size:1.6rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+    .hero__arrow:hover{background:rgba(255,255,255,.15)}
+
+    /* ── TICKER ── */
+    .ticker{background:var(--red);padding:1.3rem 0;overflow:hidden;white-space:nowrap}
+    .ticker__track{display:inline-flex;animation:ticker 18s linear infinite}
+    .ticker__item{font-size:1.15rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;padding:0 3.5rem}
+    .ticker__item::after{content:'★';margin-left:3.5rem;font-size:.8rem}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ── CATEGORIES ── */
+    .categories{background:var(--cream);padding:9rem 4rem 8rem;text-align:center}
+    .categories__heading{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,3.2vw,4.2rem);font-style:italic;font-weight:700;color:var(--red);max-width:700px;margin:0 auto 8rem;line-height:1.22}
+    .categories__grid{display:flex;justify-content:center;gap:2.5rem;flex-wrap:nowrap;margin-bottom:7rem;align-items:flex-end;padding-top:5rem}
+    .cat-item{display:flex;flex-direction:column;align-items:center;gap:2rem;cursor:pointer}
+    .cat-circle{position:relative;width:18rem;height:18rem;flex-shrink:0;transition:transform .3s}
+    .cat-circle:hover{transform:scale(1.05)}
+    .cat-bg{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+    .cat-product{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:140%;width:auto;object-fit:contain;pointer-events:none}
+    .cat-name{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--text);max-width:140px;line-height:1.3;text-align:center}
+
+    /* ── LATTES ── */
+    .lattes{position:relative;display:flex;align-items:center;min-height:65rem;overflow:hidden;background:#c4b8d0}
+    .lattes__bg{position:absolute;inset:0;background:url('https://www.califiafarms.com/static/89c01fffee2edf5d73a5d624e1223d9a/8cf0b/WEB_0007_PHOTOGRAPHY_UPDATE_2024_BARISTAS_HOMEPAGE_4k-1-scaled.jpg') center/cover no-repeat}
+    .lattes__content{position:relative;z-index:2;padding:7rem 8rem;max-width:520px}
+    .lattes__heading{font-family:'Playfair Display',serif;font-size:clamp(4rem,5vw,6.8rem);font-weight:700;color:#fff;line-height:1.06;margin-bottom:3.5rem}
+
+    /* ── FEATURES ── */
+    .features{background:#fff;padding:10rem 4rem}
+    .features__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6rem;max-width:1100px;margin:0 auto;text-align:center}
+    .feat-icon{width:220px;height:220px;object-fit:contain;margin:0 auto 3.5rem}
+    .feat-title{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;color:var(--red);margin-bottom:2rem}
+    .feat-text{font-size:1.6rem;color:#555;line-height:1.8;max-width:320px;margin:0 auto}
+
+    /* ── BARISTA RESUME ── */
+    .barista{display:grid;grid-template-columns:1fr 1fr;min-height:62rem}
+    .barista__left{position:relative;padding:3rem 3rem 3rem 3rem;background:#fff;display:flex;align-items:center}
+    .barista__slider{position:relative;width:100%;border-radius:2.4rem;overflow:hidden;aspect-ratio:1/1.1;min-height:52rem}
+    .barista__slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease;pointer-events:none;overflow:hidden}
+    .barista__slide.active{opacity:1;pointer-events:auto}
+    .barista__slide-img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+    .barista__slide-text--dark{color:#2b1506}
+    .barista__slide-text--dark .barista__slide-tag{color:#2b1506;opacity:.8}
+    .barista__slide-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(30,15,5,.75) 0%,rgba(30,15,5,.18) 55%,transparent 100%)}
+    .barista__slide-text{position:absolute;bottom:0;left:0;right:0;padding:3rem 3.5rem;color:#fff}
+    .barista__slide-tag{font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;opacity:.9;display:block;margin-bottom:.8rem}
+    .barista__slide-title{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,2.8vw,3.6rem);font-weight:700;line-height:1.15}
+    .barista__arrows{position:absolute;bottom:3.8rem;left:50%;transform:translateX(-50%);display:flex;gap:1rem;z-index:10}
+    .barista__arrow{width:4.4rem;height:4.4rem;border-radius:50%;background:var(--red);border:none;color:#fff;font-size:1.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s}
+    .barista__arrow:hover{background:#c22d1f;transform:scale(1.08)}
+    .barista__right{background:#fff;display:flex;flex-direction:column;justify-content:center;padding:5rem 6rem}
+    .barista__right h2{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,3.2vw,4.4rem);font-style:italic;font-weight:700;color:var(--red);line-height:1.15;margin-bottom:2rem}
+    .barista__right>p{font-size:1.55rem;color:var(--text);line-height:1.8;margin-bottom:2.4rem;max-width:480px}
+    .barista__prods{display:flex;gap:5rem;margin-top:3rem;justify-content:center;align-items:flex-end}
+    .barista__prod{text-align:center;cursor:pointer}
+    .barista__prod-img{width:14rem;height:25rem;object-fit:contain;display:block;margin:0 auto 1.6rem;transition:filter .3s,transform .3s}
+    .barista__prod:hover .barista__prod-img{filter:drop-shadow(0 18px 32px rgba(0,0,0,.28));transform:translateY(-6px)}
+    .barista__prod-name{font-size:1.4rem;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:.7rem;max-width:150px;margin-left:auto;margin-right:auto}
+    .barista__stars{color:#f5a200;font-size:1.4rem;letter-spacing:.04em;display:block;opacity:0;transition:opacity .25s}
+    .barista__rating{font-size:1.1rem;color:var(--muted);margin-top:.3rem;display:block;opacity:0;transition:opacity .25s}
+    .barista__prod:hover .barista__stars,.barista__prod:hover .barista__rating{opacity:1}
+
+    /* ── RECIPES ── */
+    .recipes{display:grid;grid-template-columns:1fr 1.15fr;align-items:center;gap:6rem;background:#faf3ed;padding:9rem 7rem}
+    .recipes__left{max-width:540px}
+    .recipes__eyebrow{font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--brown);opacity:.7;margin-bottom:1.8rem}
+    .recipes__heading{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,3.6vw,4.8rem);font-weight:700;color:var(--red);line-height:1.15;margin-bottom:3rem}
+    .recipes__btn{margin-bottom:4rem}
+    .recipes__list{list-style:none;border-top:1px solid rgba(43,21,6,.15)}
+    .recipes__list li{padding:2rem 0;border-bottom:1px solid rgba(43,21,6,.15);font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;color:var(--brown);cursor:pointer;transition:color .2s;line-height:1.2}
+    .recipes__list li:hover,.recipes__list li.active{color:var(--red)}
+    .recipes__photo{position:relative;border-radius:2rem;overflow:hidden;aspect-ratio:2/2.6;width:100%}
+    .recipes__photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease}
+    .recipes__photo-img.active{opacity:1}
+
+    /* ── PRESS ── */
+    .press{background:var(--beige);padding:7.5rem 4rem}
+    .press__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem;max-width:1100px;margin:0 auto}
+    .press__card{background:#fff;border-radius:16px;padding:3.5rem 3rem;display:flex;flex-direction:column;gap:2.5rem}
+    .press__quote{font-size:1.4rem;line-height:1.78;color:var(--text);flex:1}
+    .press__quote::before{content:'\201C'}
+    .press__quote::after{content:'\201D'}
+    .press__logo{font-family:'Montserrat',sans-serif;font-size:1.7rem;font-weight:800;letter-spacing:.04em;color:var(--text)}
+
+    /* ── WHERE TO BUY ── */
+    .wtb{display:grid;grid-template-columns:1fr 1fr;min-height:80rem;overflow:hidden}
+    .wtb__panel{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start}
+    .wtb__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+    .wtb__content{position:relative;z-index:2;padding:5rem 5.5rem 4rem}
+    .wtb__heading-left{font-family:'Playfair Display',serif;font-size:clamp(3.8rem,4.5vw,6.4rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:2.4rem}
+    .wtb__heading-right{font-family:'Playfair Display',serif;font-size:clamp(3.8rem,4.5vw,6.4rem);font-weight:700;color:var(--red);line-height:1.05;margin-bottom:2.4rem}
+    .wtb__copy-left{font-size:1.55rem;color:rgba(255,255,255,.92);line-height:1.7;max-width:380px;margin-bottom:3.5rem;font-weight:500}
+    .wtb__copy-right{font-size:1.4rem;color:var(--red);line-height:1.7;max-width:380px;margin-bottom:3.5rem;font-weight:500}
+    .wtb__copy-right small{font-size:1.15rem;display:block;margin-top:.6rem;opacity:.8}
+    .wtb__btn-left{border-color:#fff;color:#fff;font-size:1.05rem;padding:1.2rem 3rem}.wtb__btn-left:hover{background:#fff;color:var(--red)}
+    .wtb__btn-right{border-color:var(--red);color:var(--red);font-size:1.05rem;padding:1.2rem 3rem}.wtb__btn-right:hover{background:var(--red);color:#fff}
+
+    /* ── WAVE ── */
+    @keyframes large-wave-move{0%{transform:translateX(-1440px)}100%{transform:translateX(0px)}}
+    .footer-wave{background:#fff;line-height:0;overflow:hidden;display:block}
+    .footer-wave svg{width:100%;height:138px;display:block}
+    .footer-wave path{animation:large-wave-move 12s linear infinite}
+
+    /* ── FOLLOW ── */
+    .follow{background:#fff;padding:7rem 5rem 8rem}
+    .follow__heading{font-family:'Montserrat',sans-serif;font-size:1.2rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--red);text-align:center;margin-bottom:4rem}
+    .follow__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4rem;max-width:1300px;margin:0 auto}
+    .follow__cell{overflow:hidden;border-radius:1.6rem;aspect-ratio:1;cursor:pointer}
+    .follow__cell img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+    .follow__cell:hover img{transform:scale(1.06)}
+
+    /* ── WAVE UNDERLINE ANIMATION ── */
+    @keyframes move-underline{0%{transform:scale(4) translateX(1000%)}100%{transform:scale(4) translateX(-100%)}}
+    .wave-link{display:inline-block;color:#fff}
+    .wave-line{height:.55rem;opacity:0;overflow:hidden;transition:opacity .3s linear,width .3s linear;width:0;display:block}
+    .wave-line path{animation:22s linear infinite move-underline}
+    .wave-line path:nth-child(1){animation-delay:0ms}
+    .wave-line path:nth-child(2){animation-delay:-2s}
+    .wave-line path:nth-child(3){animation-delay:-4s}
+    .wave-line path:nth-child(4){animation-delay:-6s}
+    .wave-line path:nth-child(5){animation-delay:-8s}
+    .wave-line path:nth-child(6){animation-delay:-10s}
+    .wave-line path:nth-child(7){animation-delay:-12s}
+    .wave-line path:nth-child(8){animation-delay:-14s}
+    .wave-line path:nth-child(9){animation-delay:-16s}
+    .wave-line path:nth-child(10){animation-delay:-18s}
+    .wave-line path:nth-child(11){animation-delay:-20s}
+    .wave-link:hover .wave-line{opacity:1;width:100%}
+
+    /* ── FOOTER ── */
+    footer{background:var(--red);padding:6rem 8rem 4rem;color:#fff}
+    .footer__inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;margin-bottom:5rem}
+    .footer__col-head{font-family:'Montserrat',sans-serif;font-size:1.05rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin-bottom:2.8rem;opacity:.75}
+    .footer__products-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 2rem}
+    .footer__products li{margin-bottom:1.8rem}
+    .footer__products .wave-link{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,2.6vw,3.4rem);font-weight:700;line-height:1.1}
+    .footer__right-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem}
+    .footer__col li{margin-bottom:1.5rem}
+    .footer__col .wave-link{font-family:'Montserrat',sans-serif;font-size:1.55rem;font-weight:500}
+    .footer__bottom{border-top:1px solid rgba(255,255,255,.25);padding-top:2.5rem;display:flex;justify-content:space-between;font-size:1.2rem;font-family:'Montserrat',sans-serif;opacity:.7}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__links">
+    <a href="#" class="nav__link">Products ▾</a>
+    <a href="#" class="nav__link">Recipes</a>
+    <a href="#" class="nav__link">About</a>
+  </div>
+  <a href="#" class="nav__logo"><svg width="190" height="60" viewBox="0 0 190 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M87.8984 45.037H94.4965C95.7761 44.9816 97.0272 45.4251 97.9862 46.2741C98.4142 46.6479 98.7557 47.1102 98.9871 47.6292C99.2186 48.1481 99.3343 48.7112 99.3264 49.2793C99.3342 50.0696 99.0943 50.8424 98.6406 51.4895C98.1869 52.1366 97.5421 52.6255 96.7965 52.8876L100.842 59.7949H96.8058L94.0026 54.3835L91.5779 55.3907V59.8011H87.9026L87.8984 45.037ZM91.5727 47.7391V52.3639C91.5727 52.3639 94.6387 50.9577 95.0006 50.6649C95.1814 50.5126 95.3244 50.3203 95.4181 50.1033C95.5119 49.8863 95.5539 49.6504 95.5408 49.4144C95.5408 48.2989 94.8367 47.7391 93.4398 47.7391H91.5727Z"/><path d="M117.857 50.5033L122.606 45.0393H125.802V59.8014H122.126V50.5837L118.137 55.2137H117.577L113.586 50.5837V59.8014H109.91V45.0372H113.106L117.857 50.5033Z"/><path d="M146.453 45.9763V48.8702C144.996 48.1227 143.405 47.6734 141.772 47.5485C141.226 47.5242 140.682 47.6392 140.192 47.8825C140.021 47.9581 139.875 48.0806 139.771 48.236C139.667 48.3913 139.61 48.573 139.605 48.7598C139.613 48.9182 139.654 49.0729 139.727 49.2137C139.8 49.3544 139.903 49.4777 140.028 49.5753C140.663 49.9996 141.358 50.3263 142.089 50.5444C142.986 50.8686 143.862 51.2473 144.712 51.6785C145.376 52.0326 145.954 52.5289 146.404 53.1321C146.894 53.8267 147.143 54.6628 147.113 55.5125C147.134 56.1423 147.004 56.7679 146.733 57.3369C146.463 57.9059 146.059 58.4017 145.558 58.7827C144.364 59.6402 142.914 60.0666 141.446 59.992C139.578 59.9856 137.743 59.4951 136.12 58.5682V55.3837C136.94 55.9584 137.82 56.4424 138.745 56.827C139.512 57.1338 140.331 57.2905 141.157 57.2888C142.611 57.2888 143.329 56.827 143.329 55.929C143.322 55.7597 143.281 55.5936 143.207 55.441C143.134 55.2884 143.029 55.1527 142.901 55.0424C142.263 54.5965 141.556 54.259 140.809 54.0434C139.912 53.7319 139.036 53.3642 138.186 52.9424C137.528 52.5908 136.958 52.0953 136.517 51.4929C136.025 50.7872 135.778 49.9392 135.814 49.0794C135.799 48.4817 135.931 47.8894 136.199 47.3546C136.466 46.8199 136.861 46.3589 137.348 46.0124C138.545 45.1756 139.987 44.7633 141.445 44.8412C143.174 44.8744 144.879 45.2607 146.453 45.9763Z"/><path d="M56.1224 44.999V47.7362H49.5832V53.295H55.0564V56.0239H49.5832V59.9116H45.8594V44.999H56.1224Z"/><path d="M75.5376 59.9116H79.5923C79.0345 56.5548 75.5108 47.7248 72.9623 45H69.6457C67.1014 47.7248 63.5704 56.5548 63.0137 59.9116H67.0704C67.1693 59.3081 67.307 58.7117 67.4828 58.126H75.1221C75.2947 58.7127 75.4334 59.3089 75.5376 59.9116ZM68.4292 55.1373C69.1817 52.7897 70.1436 50.5145 71.3035 48.3392C72.4674 50.5128 73.4298 52.7883 74.1788 55.1373H68.4292Z"/><path d="M28.6204 26.5166V32.9476C25.235 35.4611 21.3685 37.2509 17.2615 38.2054C12.1449 39.3467 8.07781 38.9209 5.07157 36.8281C2.06534 34.7353 0.548828 31.5919 0.548828 27.3671C0.630768 22.9167 2.32291 18.6468 5.31179 15.3484C8.52312 11.532 12.9287 8.91147 17.8151 7.91113C21.9223 7.00184 25.4193 7.16782 28.2853 8.3431V14.8927C25.1359 13.5931 21.6713 13.259 18.3316 13.9329C15.4363 14.5074 12.802 15.9968 10.817 18.1814C8.97376 20.1014 7.93186 22.652 7.90358 25.3135C7.82772 26.4427 8.05377 27.5717 8.55854 28.5847C9.0633 29.5977 9.82858 30.458 10.7758 31.0775C12.6954 32.3043 15.146 32.5692 18.1553 31.9022C19.6426 31.579 21.0839 31.072 22.4461 30.3929C24.5815 29.2283 26.6435 27.9338 28.6204 26.5166Z"/><path d="M92.728 23.7971V29.123C86.1877 29.1958 79.6495 29.4408 73.1133 29.858V0.745207C76.0422 0.552421 77.4927 0.482316 80.4247 0.352417V24.1239C85.3393 23.9177 87.8001 23.8435 92.728 23.7971Z"/><path d="M106.282 0.127838V29.2396C103.361 29.1644 101.893 29.1293 98.9727 29.1097V0C101.893 0.0319592 103.361 0.0505168 106.282 0.127838Z"/><path d="M136.651 2.21461V7.56418C131.518 6.98582 128.938 6.73943 123.785 6.35488V17.2128C128.104 17.5324 130.256 17.7283 134.562 18.1819V23.517C130.256 23.0665 128.104 22.8665 123.798 22.5459C123.798 25.582 123.785 27.082 123.785 30.1315C120.869 29.914 119.409 29.8171 116.49 29.6511V0.552734C123.228 0.924561 129.948 1.47852 136.651 2.21461Z"/><path d="M151.013 4.10844V33.214C148.11 32.779 146.661 32.5707 143.754 32.1955V3.08472C146.661 3.45792 148.11 3.6672 151.013 4.10844Z"/><path d="M58.5344 31.0838C60.5705 30.8776 63.8231 30.5683 66.5191 30.3374C64.4974 20.8342 60.1406 9.79482 53.4982 2.54419C52.9766 2.60295 51.8333 2.74419 50.9137 2.86481C50.1652 2.95657 49.5734 3.0411 49.5734 3.0411C48.658 3.15554 47.5115 3.30812 46.9961 3.38029C40.4578 12.0052 36.1 23.96 34.0371 34.5086C36.7042 34.0395 39.9393 33.5313 41.964 33.2137C42.1582 31.9997 42.4243 30.7982 42.761 29.6157C48.7322 28.7229 51.7302 28.3374 57.7323 27.693C58.0769 28.8036 58.3448 29.9365 58.5344 31.0838ZM44.6239 23.4909C46.1703 18.862 48.2095 13.0041 50.2384 9.47007C52.2714 12.4763 54.3075 17.8207 55.8704 22.0476C51.3662 22.5507 49.1105 22.8445 44.6239 23.4909Z"/><path d="M181.294 39.1315C183.283 39.6088 186.484 40.4006 189.114 41.0975C187.045 30.1922 182.736 17.9869 176.321 8.86919C175.817 8.75269 174.682 8.49702 173.774 8.30423C173.031 8.1465 172.434 8.01041 172.434 8.01041C171.524 7.82381 170.392 7.58773 169.888 7.47742C163.248 14.2373 158.948 25.0344 156.984 34.1789C159.651 34.6139 162.887 35.2098 164.896 35.6016C165.077 34.4726 165.342 33.3586 165.688 32.2685C171.626 33.4201 174.599 34.0572 180.501 35.4644C180.832 36.6714 181.097 37.8956 181.294 39.1315ZM167.538 26.7808C169.076 22.6911 171.096 17.5147 173.105 14.6796C175.114 18.3817 177.126 24.422 178.662 29.1788C174.221 28.1468 171.997 27.6736 167.538 26.7808Z"/></svg></a>
+  <div class="nav__right">
+    <a href="#" class="nav__link">Where to Buy</a>
+    <a href="#" class="nav__link">DIY Cafe</a>
+    <svg class="nav__icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__bg" id="heroBg"></div>
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <p class="hero__eyebrow">Always Plant-Based</p>
+    <h1 class="hero__title" id="heroTitle">Irresistibly good,<br>down to the last sip.</h1>
+    <div class="hero__dots" id="heroDots">
+      <div class="hero__dot active"></div>
+      <div class="hero__dot"></div>
+      <div class="hero__dot"></div>
+    </div>
+    <a href="#" class="btn btn--outline-white">Explore</a>
+    <div class="hero__arrows" id="heroArrows">
+      <button class="hero__arrow">&#8592;</button>
+      <button class="hero__arrow">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span class="ticker__item">Always Plant-Based</span>
+    <span class="ticker__item">Always Plant-Based</span>
+    <span class="ticker__item">Always Plant-Based</span>
+    <span class="ticker__item">Always Plant-Based</span>
+    <span class="ticker__item">Always Plant-Based</span>
+    <span class="ticker__item">Always Plant-Based</span>
+    <span class="ticker__item">Always Plant-Based</span>
+    <span class="ticker__item">Always Plant-Based</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <h2 class="categories__heading">Bringing the irresistible goodness of plants to your table.</h2>
+  <div class="categories__grid">
+    <div class="cat-item">
+      <div class="cat-circle">
+        <img class="cat-bg" src="https://www.califiafarms.com/static/6f305f6077eba54d439b8c8438f37f36/4c31f/WEBSITE_CATEGORY_CIRCLES_PLANT_MILK_GREEN_PATTERN_2025.png" alt="">
+        <img class="cat-product" src="https://www.califiafarms.com/static/342d27fa393ea057f60f037a2142ab63/3a7ac/PLANTMILK_CATEGORY_RPET_US.png" alt="Plant Milks">
+      </div>
+      <span class="cat-name">Plant Milks</span>
+    </div>
+    <div class="cat-item">
+      <div class="cat-circle">
+        <img class="cat-bg" src="https://www.califiafarms.com/static/e1dbe8739b3fd4e4098f527afb2bbd77/e94b4/WEBSITE_CATEGORY_CIRCLES_CREAMER_KITCHEN_COMPANION_BLUE_PATTERN_2025.png" alt="">
+        <img class="cat-product" src="https://www.califiafarms.com/static/8830a94a4a34fa97da19ef8b12352393/672dd/0813636023844-2-scaled.png" alt="Creamers">
+      </div>
+      <span class="cat-name">Creamers</span>
+    </div>
+    <div class="cat-item">
+      <div class="cat-circle">
+        <img class="cat-bg" src="https://www.califiafarms.com/static/50a09bf2002fd959ae7a9502cb95f26b/e94b4/WEBSITE_CATEGORY_CIRCLES_BARISTA_PURPLE_PATTERN_2025.png" alt="">
+        <img class="cat-product" src="https://www.califiafarms.com/static/2ce9d2c281702db9410b5ba3ed120972/3a7ac/BARISTABLENDS_CATEGORY_US.png" alt="Barista Blends">
+      </div>
+      <span class="cat-name">Barista Blends</span>
+    </div>
+    <div class="cat-item">
+      <div class="cat-circle">
+        <img class="cat-bg" src="https://www.califiafarms.com/static/e3be1fd260c377e6066a3aa8b07bf936/e94b4/WEBSITE_CATEGORY_CIRCLES_REFRESHER_PINK_PATTERN_2025.png" alt="">
+        <img class="cat-product" src="https://www.califiafarms.com/static/dbaf44682ce3e5f347223b81305093d7/5c1ba/813636024261_US_48oz_221201_Refresher_Strawberry_Beauty-FrontRenderV3-1-scaled.png" alt="Creamy Refreshers">
+      </div>
+      <span class="cat-name">Creamy Refreshers</span>
+    </div>
+    <div class="cat-item">
+      <div class="cat-circle">
+        <img class="cat-bg" src="https://www.califiafarms.com/static/37855f750e896eda5d30726ea802dc2a/e94b4/WEBSITE_CATEGORY_CIRCLES_COFFEE_TEA_RED_PATTERN_2025.png" alt="">
+        <img class="cat-product" src="https://www.califiafarms.com/static/2298e45a5a5e2cc9882d286dc401840d/3a7ac/COFFEE_CATEGORY_US.png" alt="Coffees &amp; Teas">
+      </div>
+      <span class="cat-name">Coffees &amp; Teas</span>
+    </div>
+    <div class="cat-item">
+      <div class="cat-circle">
+        <img class="cat-bg" src="https://www.califiafarms.com/static/e1dbe8739b3fd4e4098f527afb2bbd77/e94b4/WEBSITE_CATEGORY_CIRCLES_CREAMER_KITCHEN_COMPANION_BLUE_PATTERN_2025.png" alt="">
+        <img class="cat-product" src="https://www.califiafarms.com/static/2d0c3b6ef8180d704a4ec6f806cd462d/d7b03/813636021642_US_32oz_1255076_Half-Half_Beauty-FrontRender-1.png" alt="Kitchen Companions">
+      </div>
+      <span class="cat-name">Kitchen Companions</span>
+    </div>
+  </div>
+  <a href="#" class="btn btn--outline-red">Explore the Possibilities</a>
+</section>
+
+<!-- LATTES -->
+<section class="lattes">
+  <div class="lattes__bg"></div>
+  <div class="lattes__content">
+    <h2 class="lattes__heading">Let There<br>be Lattes!</h2>
+    <a href="#" class="btn btn--outline-white">Explore</a>
+  </div>
+  <div style="display:none">
+
+    <!-- COCONUT BARISTA BLEND (teal) — shorter/front-left -->
+    <div class="lattes__carton">
+      <svg width="108" height="290" viewBox="0 0 108 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- body -->
+        <rect x="4" y="30" width="100" height="282" rx="6" fill="#f8f8f4"/>
+        <!-- teal top band -->
+        <rect x="4" y="30" width="100" height="60" rx="6" fill="#1aab96"/>
+        <rect x="4" y="74" width="100" height="16" fill="#1aab96"/>
+        <!-- dark header bar -->
+        <rect x="4" y="30" width="100" height="22" rx="6" fill="#0d1a18"/>
+        <rect x="4" y="44" width="100" height="8" fill="#0d1a18"/>
+        <!-- "BARISTA'S CHOICE" header text -->
+        <text x="54" y="43" text-anchor="middle" fill="#1aab96" font-size="6.5" font-family="sans-serif" font-weight="bold" letter-spacing="1">BARISTA'S CHOICE</text>
+        <!-- COCONUTMILK label -->
+        <rect x="18" y="52" width="72" height="16" rx="3" fill="#1aab96"/>
+        <text x="54" y="64" text-anchor="middle" fill="#fff" font-size="8" font-family="sans-serif" font-weight="bold" letter-spacing="0.5">COCONUTMILK</text>
+        <!-- cap -->
+        <rect x="34" y="18" width="40" height="16" rx="5" fill="#1a1a1a"/>
+        <!-- CALIFIA FARMS wordmark -->
+        <text x="54" y="108" text-anchor="middle" fill="#0d5a50" font-size="9.5" font-family="serif" font-weight="bold" letter-spacing="2">CALIFIA</text>
+        <text x="54" y="120" text-anchor="middle" fill="#0d5a50" font-size="7.5" font-family="serif" letter-spacing="3">FARMS®</text>
+        <!-- botanical circle decoration -->
+        <circle cx="54" cy="160" r="34" fill="none" stroke="#1aab96" stroke-width="1" opacity=".4"/>
+        <circle cx="54" cy="160" r="28" fill="none" stroke="#1aab96" stroke-width=".5" opacity=".3"/>
+        <!-- product name -->
+        <text x="54" y="152" text-anchor="middle" fill="#0d5a50" font-size="22" font-family="serif" font-weight="bold">Coconut</text>
+        <!-- barista blend -->
+        <text x="54" y="172" text-anchor="middle" fill="#1aab96" font-size="8.5" font-family="sans-serif" font-weight="bold" letter-spacing="1">BARISTA</text>
+        <text x="54" y="182" text-anchor="middle" fill="#0d5a50" font-size="6.5" font-family="sans-serif" letter-spacing="2">— BLEND —</text>
+        <!-- dairy free -->
+        <text x="54" y="198" text-anchor="middle" fill="#888" font-size="6" font-family="sans-serif">DAIRY FREE</text>
+        <!-- bottom details -->
+        <rect x="12" y="285" width="84" height="1" fill="#ddd"/>
+        <text x="54" y="298" text-anchor="middle" fill="#aaa" font-size="5.5" font-family="sans-serif">STEAMS READY · FOAMS EASILY</text>
+        <text x="54" y="308" text-anchor="middle" fill="#aaa" font-size="5.5" font-family="sans-serif">32 FL OZ (1 QT) 946 mL</text>
+      </svg>
+    </div>
+
+    <!-- OAT BARISTA BLEND (blue/navy) — tallest/center -->
+    <div class="lattes__carton">
+      <svg width="108" height="320" viewBox="0 0 108 340" xmlns="http://www.w3.org/2000/svg">
+        <!-- body -->
+        <rect x="4" y="30" width="100" height="302" rx="6" fill="#eef2f8"/>
+        <!-- navy top band -->
+        <rect x="4" y="30" width="100" height="60" rx="6" fill="#1a2d5a"/>
+        <rect x="4" y="74" width="100" height="16" fill="#1a2d5a"/>
+        <!-- dark header bar -->
+        <rect x="4" y="30" width="100" height="22" rx="6" fill="#0a0f1e"/>
+        <rect x="4" y="44" width="100" height="8" fill="#0a0f1e"/>
+        <text x="54" y="43" text-anchor="middle" fill="#7ab0e0" font-size="6.5" font-family="sans-serif" font-weight="bold" letter-spacing="1">BARISTA'S CHOICE</text>
+        <!-- OATMILK label -->
+        <rect x="24" y="52" width="60" height="16" rx="3" fill="#3a6ab0"/>
+        <text x="54" y="64" text-anchor="middle" fill="#fff" font-size="8" font-family="sans-serif" font-weight="bold" letter-spacing="1">OATMILK</text>
+        <!-- cap -->
+        <rect x="34" y="18" width="40" height="16" rx="5" fill="#0a0f1e"/>
+        <!-- CALIFIA FARMS -->
+        <text x="54" y="112" text-anchor="middle" fill="#1a2d5a" font-size="9.5" font-family="serif" font-weight="bold" letter-spacing="2">CALIFIA</text>
+        <text x="54" y="124" text-anchor="middle" fill="#1a2d5a" font-size="7.5" font-family="serif" letter-spacing="3">FARMS®</text>
+        <!-- botanical -->
+        <circle cx="54" cy="178" r="36" fill="none" stroke="#3a6ab0" stroke-width="1" opacity=".35"/>
+        <!-- product name -->
+        <text x="54" y="166" text-anchor="middle" fill="#1a2d5a" font-size="30" font-family="serif" font-weight="bold">OAT</text>
+        <!-- barista blend -->
+        <text x="54" y="186" text-anchor="middle" fill="#3a6ab0" font-size="8.5" font-family="sans-serif" font-weight="bold" letter-spacing="1">BARISTA</text>
+        <text x="54" y="197" text-anchor="middle" fill="#1a2d5a" font-size="6.5" font-family="sans-serif" letter-spacing="2">— BLEND —</text>
+        <text x="54" y="212" text-anchor="middle" fill="#888" font-size="6" font-family="sans-serif">DAIRY FREE · GLUTEN FREE</text>
+        <!-- bottom -->
+        <rect x="12" y="302" width="84" height="1" fill="#ddd"/>
+        <text x="54" y="315" text-anchor="middle" fill="#aaa" font-size="5.5" font-family="sans-serif">STEAMS READY · FOAMS EASILY</text>
+        <text x="54" y="325" text-anchor="middle" fill="#aaa" font-size="5.5" font-family="sans-serif">32 FL OZ (1 QT) 946 mL</text>
+      </svg>
+    </div>
+
+    <!-- ALMOND BARISTA BLEND (red) -->
+    <div class="lattes__carton">
+      <svg width="108" height="300" viewBox="0 0 108 330" xmlns="http://www.w3.org/2000/svg">
+        <!-- body -->
+        <rect x="4" y="30" width="100" height="292" rx="6" fill="#f8f5f4"/>
+        <!-- red top band -->
+        <rect x="4" y="30" width="100" height="60" rx="6" fill="#c8352a"/>
+        <rect x="4" y="74" width="100" height="16" fill="#c8352a"/>
+        <!-- dark header bar -->
+        <rect x="4" y="30" width="100" height="22" rx="6" fill="#1a0a08"/>
+        <rect x="4" y="44" width="100" height="8" fill="#1a0a08"/>
+        <text x="54" y="43" text-anchor="middle" fill="#e87870" font-size="6.5" font-family="sans-serif" font-weight="bold" letter-spacing="1">BARISTA'S CHOICE</text>
+        <!-- ALMONDMILK label -->
+        <rect x="14" y="52" width="80" height="16" rx="3" fill="#c8352a"/>
+        <text x="54" y="64" text-anchor="middle" fill="#fff" font-size="8" font-family="sans-serif" font-weight="bold" letter-spacing="0.5">ALMONDMILK</text>
+        <!-- cap -->
+        <rect x="34" y="18" width="40" height="16" rx="5" fill="#1a0a08"/>
+        <!-- CALIFIA FARMS -->
+        <text x="54" y="110" text-anchor="middle" fill="#1a0a08" font-size="9.5" font-family="serif" font-weight="bold" letter-spacing="2">CALIFIA</text>
+        <text x="54" y="122" text-anchor="middle" fill="#1a0a08" font-size="7.5" font-family="serif" letter-spacing="3">FARMS®</text>
+        <!-- botanical circle -->
+        <circle cx="54" cy="170" r="35" fill="none" stroke="#c8352a" stroke-width="1" opacity=".35"/>
+        <!-- product name -->
+        <text x="54" y="162" text-anchor="middle" fill="#c8352a" font-size="21" font-family="serif" font-weight="bold">Almond</text>
+        <!-- barista blend -->
+        <text x="54" y="181" text-anchor="middle" fill="#c8352a" font-size="8.5" font-family="sans-serif" font-weight="bold" letter-spacing="1">BARISTA</text>
+        <text x="54" y="192" text-anchor="middle" fill="#1a0a08" font-size="6.5" font-family="sans-serif" letter-spacing="2">— BLEND —</text>
+        <text x="54" y="207" text-anchor="middle" fill="#888" font-size="6" font-family="sans-serif">DAIRY FREE</text>
+        <!-- bottom -->
+        <rect x="12" y="295" width="84" height="1" fill="#ddd"/>
+        <text x="54" y="308" text-anchor="middle" fill="#aaa" font-size="5.5" font-family="sans-serif">STEAMS READY · FOAMS EASILY</text>
+        <text x="54" y="318" text-anchor="middle" fill="#aaa" font-size="5.5" font-family="sans-serif">32 FL OZ (1 QT) 946 mL</text>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<!-- WAVE: dark → cream -->
+<div style="background:var(--dark);line-height:0;margin-bottom:-2px">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style="width:100%;height:72px;display:block">
+    <path fill="#faf8f5">
+      <animate attributeName="d"
+        values="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z;
+                M0,40 C360,0 1080,80 1440,40 L1440,80 L0,80 Z;
+                M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z"
+        dur="5s" repeatCount="indefinite" calcMode="spline"
+        keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>
+    </path>
+  </svg>
+</div>
+
+<!-- FEATURES: Variety / Versatility / Taste -->
+<section class="features">
+  <div class="features__grid">
+    <!-- Variety -->
+    <div style="text-align:center">
+      <img class="feat-icon" src="https://www.califiafarms.com/static/97de325855fc6918d04d14389bee2ee2/ec333/Homepage_Variety_250x250_x2.png" alt="Variety">
+      <h3 class="feat-title">Variety</h3>
+      <p class="feat-text">We simply love plants, that's why we don't just stick to one. From oat, almond, and coconut to our innovative blends, we make it easy to swap out dairy.</p>
+    </div>
+    <!-- Versatility -->
+    <div style="text-align:center">
+      <img class="feat-icon" src="https://www.califiafarms.com/static/c00d7869616f47587959928176222068/ec333/Homepage_Versatility_250x250_x2.png" alt="Versatility">
+      <h3 class="feat-title">Versatility</h3>
+      <p class="feat-text">We make sure our products perform in the kitchen no matter what you're making, baking, and blending. The plant-based possibilities are endless.</p>
+    </div>
+    <!-- Taste -->
+    <div style="text-align:center">
+      <img class="feat-icon" src="https://www.califiafarms.com/static/540787783fd4242698a8596f178c7dbb/ec333/Homepage_Taste_250x250_x2.png" alt="Taste">
+      <h3 class="feat-title">Taste</h3>
+      <p class="feat-text">Everything we make, we make delicious. It's our first, second, and third priorities. That's why a lot of our customers switch from dairy because they prefer the taste of Califia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BARISTA FEATURE -->
+<section class="barista">
+  <div class="barista__left">
+    <div class="barista__slider">
+
+      <!-- Slide 0 – Iced Lavender Matcha Latte -->
+      <div class="barista__slide active">
+        <video class="barista__slide-img" src="https://www.califiafarms.com/static/4f103ee087ae30703471222162274a02/WEB_0007_PHOTOGRAPHY_UPDATE_2024_MATCHA_INSERT_DESKTOP.mp4" autoplay playsinline loop muted></video>
+        <div class="barista__slide-overlay"></div>
+        <div class="barista__slide-text">
+          <span class="barista__slide-tag">The Sweet Treat</span>
+          <h3 class="barista__slide-title">Iced Lavender<br>Matcha Latte</h3>
+        </div>
+      </div>
+
+      <!-- Slide 1 – Vanilla Iced Coffee -->
+      <div class="barista__slide">
+        <video class="barista__slide-img" src="https://www.califiafarms.com/static/804cbe59278df295cadc17ab4a3c7d55/WEB_0007_PHOTOGRAPHY_UPDATE_2024_ICED_VANILLA_LATTE_INSERT-1.mp4" autoplay playsinline loop muted></video>
+        <div class="barista__slide-overlay"></div>
+        <div class="barista__slide-text">
+          <span class="barista__slide-tag">The Classic</span>
+          <h3 class="barista__slide-title">Vanilla<br>Iced Coffee</h3>
+        </div>
+      </div>
+
+      <!-- Slide 2 – Iced Caramel Cold Brew -->
+      <div class="barista__slide">
+        <video class="barista__slide-img" src="https://www.califiafarms.com/static/7507c86e7053a6fbfa1c5fb440955d29/WEB_0007_PHOTOGRAPHY_UPDATE_2024_CARAMELS_INSERT_DESKTOP.mp4" autoplay playsinline loop muted></video>
+        <div class="barista__slide-overlay"></div>
+        <div class="barista__slide-text barista__slide-text--dark">
+          <span class="barista__slide-tag">The Perfect Pick-Me-Up</span>
+          <h3 class="barista__slide-title">Iced Caramel<br>Cold Brew</h3>
+        </div>
+      </div>
+
+      <!-- Arrow buttons inside slider for positioning -->
+      <div class="barista__arrows">
+        <button class="barista__arrow" id="baristaPrev" aria-label="Previous slide">&#8592;</button>
+        <button class="barista__arrow" id="baristaNext" aria-label="Next slide">&#8594;</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="barista__right">
+    <h2>Add Barista to<br>Your Resume</h2>
+    <p>We bring the cafe to your kitchen with our coffees, lattes, and creamers. When it comes to your coffee game, you can consider yourself hired.</p>
+    <a href="#" class="btn btn--outline-red">Explore Califia Coffee</a>
+    <div class="barista__prods" id="baristaProds">
+      <!-- Products injected by JS based on active slide -->
+    </div>
+  </div>
+</section>
+
+<!-- RECIPES -->
+<section class="recipes">
+  <div class="recipes__left">
+    <p class="recipes__eyebrow">Made with Califia</p>
+    <h2 class="recipes__heading">Elevated, easy-to-make recipes for every occasion.</h2>
+    <a href="#" class="btn btn--red recipes__btn">View All Recipes</a>
+    <ul class="recipes__list" id="recipesList">
+      <li class="active" data-index="0">Bella Hadid's Kinsicle Smoothie</li>
+      <li data-index="1">Cold Brew Coffee Granita</li>
+      <li data-index="2">Beet Hummus</li>
+      <li data-index="3">Coconut Margarita</li>
+      <li data-index="4">French Toast Bites</li>
+    </ul>
+  </div>
+  <div class="recipes__photo">
+    <img class="recipes__photo-img active" src="https://www.califiafarms.com/static/a736490473322b8615db77705e0b6b47/ff115/12A_DIG_110_JAN_SOCIAL_SMOOTHIE_2_for-web.webp" alt="Bella Hadid's Kinsicle Smoothie">
+    <img class="recipes__photo-img" src="https://www.califiafarms.com/static/4d765b37fcc15aeecbeb78e06041505b/47057/CalifiaFarms_TheBrokenBread_ColdBrewGranita_ColdBrew_RecipeImage_4-scaled.webp" alt="Cold Brew Coffee Granita">
+    <img class="recipes__photo-img" src="https://www.califiafarms.com/static/2e85d41e497dd53a4dcfd2b83e373dba/a5772/CalifiaFarms_TheBrokenBread_BeetHummus_UnsweetenedAlmondmilk_RecipeImage_6.webp" alt="Beet Hummus">
+    <img class="recipes__photo-img" src="https://www.califiafarms.com/static/f6baf7ca9f13f8e2c6132c6168189bb2/47057/CalifiaFarms_TheBrokenBread_CoconutMargarita_ToastedCoconutAlmondmilk_RecipeImage_4-scaled.webp" alt="Coconut Margarita">
+    <img class="recipes__photo-img" src="https://www.califiafarms.com/static/88df02c2fcfbd9809bfc8bf884bbc60c/47057/CalifiaFarms_TheBrokenBread_FrenchToastBites_ExtraCreamyOatmilk_RecipeImage_3-scaled.webp" alt="French Toast Bites">
+  </div>
+</section>
+
+<!-- PRESS -->
+<section class="press">
+  <div class="press__grid">
+    <div class="press__card">
+      <p class="press__quote">Califia Farms Organic Unsweetened Almondmilk is another recommendation I'd give, as it is made with only three simple, whole-food ingredients: Water, organic almonds, and sea salt.</p>
+      <img src="https://www.califiafarms.com/static/262027b3760b234cff7e8c6ed3d9f1e8/ac82c/huffpost.png" alt="HuffPost" style="height:2.4rem;object-fit:contain;width:auto">
+    </div>
+    <div class="press__card">
+      <p class="press__quote">Plant-based and with just three grams of sugar per serving, you can now drink a cinnamon roll in the form of this creamy and decadent new flavor from Califia. They are also offering a cookie butter almond milk option, too.</p>
+      <img src="https://www.califiafarms.com/static/483683c382681613da2620f899540504/572c9/e-news.png" alt="E News" style="height:2.4rem;object-fit:contain;width:auto">
+    </div>
+    <div class="press__card">
+      <p class="press__quote">This Dhudum Roast Cold Brew from Califia Farms is the ultimate choice for straight coffee drinkers. The medium roast is made from exactly two ingredients — water and coffee from 100% Arabica beans.</p>
+      <img src="https://www.califiafarms.com/static/ce2c5e4384152e4dd62279d21860f15e/83e32/food-network.png" alt="Food Network" style="height:2.4rem;object-fit:contain;width:auto">
+    </div>
+  </div>
+</section>
+
+<!-- WHERE TO BUY -->
+<section class="wtb">
+  <div class="wtb__panel">
+    <img class="wtb__bg" src="https://www.califiafarms.com/static/092dff207fd3057935abe33baa40dfde/0a9c1/CF_US_Web_Update_Where_to_Buy-scaled.jpg" alt="Where to buy">
+    <div class="wtb__content">
+      <h2 class="wtb__heading-left">Where to buy</h2>
+      <p class="wtb__copy-left">Find your favorite Califia products in stores near you, or shop from home through our online retailers.</p>
+      <a href="#" class="btn wtb__btn-left">FIND IN STORE</a>
+    </div>
+  </div>
+  <div class="wtb__panel">
+    <img class="wtb__bg" src="https://www.califiafarms.com/static/a9e669f362ee370afbe4ecfa9f9c814c/82da3/12A_DIG_155_RPET_HOMPAGE_BANNER_1600x1800-1-1.png" alt="Recycled Plastic">
+    <div class="wtb__content">
+      <h2 class="wtb__heading-right">Hello, Recycled Plastic. Hello, Cleaner World.</h2>
+      <p class="wtb__copy-right">Meet our new bottle. It's made with 100% recycled plastic.*<small>*Does not include plastic cap or sleeve.</small></p>
+      <a href="#" class="btn wtb__btn-right">LEARN MORE</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOLLOW US -->
+<section class="follow">
+  <p class="follow__heading">Follow Us</p>
+  <div class="follow__grid">
+    <div class="follow__cell">
+      <img src="https://www.califiafarms.com/static/2b0a22149e75ff1e4cc19024121b47aa/b328c/672371150_18578233288041792_8550213254287099161_n.webp" alt="Instagram post">
+    </div>
+    <div class="follow__cell">
+      <img src="https://www.califiafarms.com/static/655079b1d66ef2b9b5c5c58885a30ec4/aa61a/671877744_18161409037434339_6226421331384632120_n.webp" alt="Instagram post">
+    </div>
+    <div class="follow__cell">
+      <img src="https://www.califiafarms.com/static/4f97de102946ae798a5f5e7a5db6e0b2/b328c/670885539_18577041595041792_1781492154906535189_n.webp" alt="Instagram post">
+    </div>
+  </div>
+</section>
+
+<!-- WAVE: white → red footer (exact match to califiafarms.com) -->
+<div class="footer-wave">
+  <svg viewBox="0 0 1440 138" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 69V138H1440H2880H4320V68.875C4235.63 68.875 4125.59 53.9516 4007.95 37.998C3872.86 19.6783 3727.75 0 3600 0C3472.04 0 3326.32 19.7775 3190.9 38.1556C3073.38 54.1048 2963.63 69 2880 69V68.875C2795.63 68.875 2685.59 53.9516 2567.95 37.998C2432.86 19.6783 2287.75 0 2160 0C2032.04 0 1886.32 19.7775 1750.9 38.1556C1633.38 54.1048 1523.63 69 1440 69V68.875C1355.63 68.875 1245.59 53.9516 1127.95 37.998C992.857 19.6783 847.75 0 720 0C592.044 0 446.318 19.7775 310.902 38.1556C193.384 54.1048 83.6318 69 0 69Z" fill="#e03828"/>
+  </svg>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer__inner">
+    <!-- Products: big serif links -->
+    <div class="footer__products">
+      <h4 class="footer__col-head">Products</h4>
+      <div class="footer__products-grid" id="footerProducts"></div>
+    </div>
+    <!-- Right 3 columns -->
+    <div class="footer__right-cols">
+      <div class="footer__col">
+        <h4 class="footer__col-head">About</h4>
+        <ul id="footerAbout"></ul>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-head">Inspiration</h4>
+        <ul id="footerInspiration"></ul>
+      </div>
+      <div class="footer__col">
+        <h4 class="footer__col-head">Help</h4>
+        <ul id="footerHelp"></ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2025 Califia Farms. All rights reserved.</span>
+    <span>Always Plant-Based</span>
+  </div>
+</footer>
+
+<script>
+  // ── WAVE UNDERLINE HELPERS ──
+  function waveSVG() {
+    const d = "M1 1C6.54167 1 6.54167 3.24091 12.0833 3.24091C17.625 3.24091 17.625 1 23.1667 1C28.7083 1 28.7083 3.24091 34.25 3.24091C39.7917 3.24091 39.7917 1 45.3333 1C50.875 1 50.875 3.24091 56.4167 3.24091C61.9583 3.24091 61.9583 1 67.5 1";
+    const paths = Array.from({length:11},(_,i)=>
+      `<path d="${d}" stroke-width="1.5" stroke-linecap="square" style="transform:scale(4) translateX(${i*100}%)"/>`
+    ).join('');
+    return `<svg class="wave-line" width="100%" height="100%" preserveAspectRatio="xMinYMid meet" viewBox="1,0,66.5,17" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentcolor">${paths}</svg>`;
+  }
+  function waveLink(text, href='#') {
+    return `<a href="${href}" class="wave-link">${text}${waveSVG()}</a>`;
+  }
+
+  // ── FOOTER BUILDER ──
+  const productsCols = [
+    ['Plant Milks','Barista Blends','Coffees & Teas','All'],
+    ['Creamers','Creamy Refreshers','Kitchen Companions']
+  ];
+  const fpEl = document.getElementById('footerProducts');
+  productsCols.forEach(col => {
+    const ul = document.createElement('ul');
+    col.forEach(name => {
+      const li = document.createElement('li');
+      li.innerHTML = waveLink(name);
+      ul.appendChild(li);
+    });
+    fpEl.appendChild(ul);
+  });
+
+  [
+    {id:'footerAbout', items:['About Us','Sustainability','Careers','Press','Away From Home Dispensing','Supply Chain Disclosure','Privacy Notice at Collection','Business Contacts','Privacy Policy']},
+    {id:'footerInspiration', items:['Recipes','DIY Cafe']},
+    {id:'footerHelp', items:['Contact Us','FAQs','Give Feedback']}
+  ].forEach(({id,items}) => {
+    const ul = document.getElementById(id);
+    items.forEach(name => {
+      const li = document.createElement('li');
+      li.innerHTML = waveLink(name);
+      ul.appendChild(li);
+    });
+  });
+
+  // Nav: transparent on hero, solid white on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Hero slideshow
+  const slides = [
+    {
+      bg: 'https://www.califiafarms.com/static/6ed2c605c40a224a454efebf55e70851/f1e8a/Web-Test-Hi-Res_150dpi-scaled.jpg',
+      title: 'Irresistibly good,<br>down to the last sip.'
+    },
+    {
+      bg: 'https://www.califiafarms.com/static/2fd7ee48019e7afbeb6b54e5090c5ef7/d9fdc/Espresso-Cold-Brew-Homepage-Banner_Desktop-1-scaled.jpg',
+      title: 'Plant-based never<br>tasted this good.'
+    },
+    {
+      bg: 'https://www.califiafarms.com/static/89c01fffee2edf5d73a5d624e1223d9a/8cf0b/WEB_0007_PHOTOGRAPHY_UPDATE_2024_BARISTAS_HOMEPAGE_4k-1-scaled.jpg',
+      title: 'Your morning just<br>got a whole lot better.'
+    }
+  ];
+  let cur = 0;
+  const heroBg = document.getElementById('heroBg');
+  const heroTitle = document.getElementById('heroTitle');
+  const dots = document.querySelectorAll('.hero__dot');
+  heroTitle.style.transition = 'opacity .3s';
+
+  function goTo(n) {
+    cur = ((n % slides.length) + slides.length) % slides.length;
+    dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+    heroTitle.style.opacity = '0';
+    setTimeout(() => {
+      heroTitle.innerHTML = slides[cur].title;
+      heroBg.style.backgroundImage = `url('${slides[cur].bg}')`;
+      heroTitle.style.opacity = '1';
+    }, 300);
+  }
+
+  // set initial bg
+  heroBg.style.backgroundImage = `url('${slides[0].bg}')`;
+
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+  const arrows = document.querySelectorAll('.hero__arrow');
+  arrows[0].addEventListener('click', () => goTo(cur - 1));
+  arrows[1].addEventListener('click', () => goTo(cur + 1));
+  setInterval(() => goTo(cur + 1), 5000);
+
+  // Barista carousel
+  const baristaSlides = document.querySelectorAll('.barista__slide');
+  const baristaProds = document.getElementById('baristaProds');
+
+  const baristaData = [
+    {
+      products: [
+        { img: 'https://www.califiafarms.com/static/9e3c84bdf023959c613b83abd2992f9c/82ade/sa3z7cxco1wh27bjzwpe.png', name: 'Simple Matcha with Almondmilk', stars: '★★★★☆', rating: '4.1 / 5' },
+        { img: 'https://www.califiafarms.com/static/564fc4802eeade19979503474976a54a/672dd/i9eqewcpfqre1sxia8bt.png', name: 'Organic Lavender Almond Creamer', stars: '★★★★☆', rating: '4.3 / 5' }
+      ]
+    },
+    {
+      products: [
+        { img: 'https://www.califiafarms.com/static/eaa64ca9ce7508563172d7d3f9dc6b38/672dd/ikxuyevozqgb4uatwbta.png', name: 'French Vanilla Creamer', stars: '★★★★★', rating: '4.6 / 5' },
+        { img: 'https://www.califiafarms.com/static/8a2ed15560c775d5eaedd3c9235dfff5/82ade/fymdsnxnq1kl15whud6s.png', name: 'Unsweetened Iced Coffee', stars: '★★★★☆', rating: '4.2 / 5' }
+      ]
+    },
+    {
+      products: [
+        { img: 'https://www.califiafarms.com/static/d1ba632bd7aedef817c058a1f0b7cf42/672dd/ce2wkafkimma7vyfsbca.png', name: 'Caramel Almond Creamer', stars: '★★★★★', rating: '4.7 / 5' },
+        { img: 'https://www.califiafarms.com/static/3defeff64e9167398dad1918e053a204/82ade/thrubpl9rjuglno6mstv.png', name: 'Pure Black Medium Roast', stars: '★★★★☆', rating: '4.4 / 5' }
+      ]
+    }
+  ];
+
+  let bCur = 0;
+
+  function renderBaristaProds(idx) {
+    const prods = baristaData[idx].products;
+    baristaProds.innerHTML = prods.map(p => `
+      <div class="barista__prod">
+        <img class="barista__prod-img" src="${p.img}" alt="${p.name}">
+        <span class="barista__prod-name">${p.name}</span>
+        <span class="barista__stars">${p.stars}</span>
+        <span class="barista__rating">${p.rating}</span>
+      </div>
+    `).join('');
+  }
+
+  function goBarista(n) {
+    bCur = ((n % baristaSlides.length) + baristaSlides.length) % baristaSlides.length;
+    baristaSlides.forEach((s, i) => s.classList.toggle('active', i === bCur));
+    renderBaristaProds(bCur);
+  }
+
+  renderBaristaProds(0);
+  document.getElementById('baristaPrev').addEventListener('click', () => goBarista(bCur - 1));
+  document.getElementById('baristaNext').addEventListener('click', () => goBarista(bCur + 1));
+
+  // Recipes hover interaction
+  const recipeItems = document.querySelectorAll('#recipesList li');
+  const recipeImgs = document.querySelectorAll('.recipes__photo-img');
+
+  recipeItems.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      const idx = +item.dataset.index;
+      recipeItems.forEach(i => i.classList.remove('active'));
+      recipeImgs.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      recipeImgs[idx].classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
